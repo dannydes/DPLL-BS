@@ -9,27 +9,18 @@ import java.util.ListIterator;
 
 public class DPLL {
 
-    private static DPLL instance = null;
-
     private ArrayList<Variable> variables;
     private Variable current;
     private ListIterator iterator;
     private boolean satisfiable;
 
-    private DPLL(Parser parser) {
+    public DPLL(Parser parser) {
         variables = parser.getVars();
         
         iterator = variables.listIterator();
         current = null;
         
         satisfiable = dpll(parser.getAndRel());
-    }
-
-    public static DPLL createInstance(Parser parser) {
-        if (instance == null) {
-            instance = new DPLL(parser);
-        }
-        return instance;
     }
 
     private boolean consistent(AndRelation formula) {
@@ -51,11 +42,11 @@ public class DPLL {
             
             HashSet<OrRelation> clauses = formula.getOrRelations();
             boolean pure = true;
+            boolean firstLiteral = true;
+            boolean not = false;
 
             for (OrRelation clause : clauses) {
                 HashSet<NotRelation> literals = clause.getNotRelations();
-                boolean firstLiteral = true;
-                boolean not = false;
                 for (NotRelation literal : literals) {
                     if (literal.getVariable() == variable) {
                         if (firstLiteral) {

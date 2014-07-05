@@ -16,6 +16,10 @@ public class AndRelation extends Relation {
     @Override
     public boolean eval() {
         for (OrRelation rel : orRelations) {
+            if (rel == null || rel.getNotRelations().isEmpty()) {
+                return true;
+            }
+            
             if (!rel.eval()) {
                 return false;
             }

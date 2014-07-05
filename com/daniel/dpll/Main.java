@@ -10,7 +10,7 @@ public class Main {
         try {
             Parser parser = Parser.createInstance(formula);
 
-            DPLL dpll = DPLL.createInstance(parser);
+            DPLL dpll = new DPLL(parser);
             System.out.println(dpll.isSatisfiable());
         } catch (Exception e) {
             System.out.println(e.getMessage());
