@@ -15,9 +15,10 @@ public class Main {
             
             boolean sat = dpll.isSatisfiable();
             
-            System.out.println(sat ? "SAT" : "UNSAT");
+            System.out.println(sat ? "SAT\n" : "UNSAT");
             
             if (sat) {
+                System.out.println("Example literal values: ");
                 for (Variable variable : dpll.getVariables()) {
                     System.out.println(variable);
                 }

@@ -89,6 +89,7 @@ public class DPLL {
     private OrRelation chooseLiteral() {
         if (iterator.hasNext()) {
             Variable var = (Variable) iterator.next();
+            var.setValue(true);
             NotRelation l = new NotRelation(variables, var.toString(), false);
             OrRelation clause = new OrRelation();
             clause.getNotRelations().add(l);

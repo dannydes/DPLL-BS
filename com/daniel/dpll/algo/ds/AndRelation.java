@@ -31,9 +31,16 @@ public class AndRelation extends Relation {
         Pattern andPattern = Pattern.compile("\\(\\s*[^\\)]+\\s*\\)");
         Matcher matcher = andPattern.matcher(formula);
         AndRelation andRel = new AndRelation();
+        
+        boolean occured = false;
 
         while (matcher.find()) {
             andRel.orRelations.add(OrRelation.parse(matcher.group(), variables));
+            occured = true;
+        }
+        
+        if (!occured) {
+            throw new Exception("Incorrect format!");
         }
 
         return andRel;
