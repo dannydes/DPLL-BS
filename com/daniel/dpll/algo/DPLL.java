@@ -130,4 +130,9 @@ public class DPLL {
     public boolean isSatisfiable() {
         return satisfiable;
     }
+    
+    public ArrayList<Variable> getVariables() {
+        return variables;
+    }
+    
 }
