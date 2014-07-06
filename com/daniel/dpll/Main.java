@@ -2,6 +2,7 @@ package com.daniel.dpll;
 
 import com.daniel.dpll.algo.DPLL;
 import com.daniel.dpll.algo.ds.Variable;
+import com.daniel.dpll.algo.test.RelationEvalTest;
 import com.daniel.dpll.parser.Parser;
 import java.util.Scanner;
 
@@ -34,13 +35,22 @@ public class Main {
         
         return !SENTINEL.equals(formula);
     }
+    
+    private static void test() {
+        RelationEvalTest.not();
+        RelationEvalTest.or();
+    }
 
     public static void main(String[] args) {
         System.out.println("DPLL BS (Bis-Sens)");
         System.out.println("------------------\n");
 
         if (args.length != 0) {
-            run(args[0]);
+            if (args[0].equals("--test")) {
+                test();
+            } else {
+                run(args[0]);
+            }
         }
         try (Scanner input = new Scanner(System.in)) {
             input.useDelimiter("\n");
