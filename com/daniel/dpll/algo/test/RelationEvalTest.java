@@ -1,5 +1,6 @@
 package com.daniel.dpll.algo.test;
 
+import com.daniel.dpll.algo.ds.AndRelation;
 import com.daniel.dpll.algo.ds.NotRelation;
 import com.daniel.dpll.algo.ds.OrRelation;
 import com.daniel.dpll.algo.ds.Variable;
@@ -11,6 +12,7 @@ import org.junit.Assert;
  * @author Daniel
  */
 public class RelationEvalTest extends Assert {
+    
     public static void not() {
         ArrayList<Variable> variables = new ArrayList();
         variables.add(new Variable("a"));
@@ -36,4 +38,26 @@ public class RelationEvalTest extends Assert {
         a.not();
         assertFalse(clause.eval());
     }
+    
+    public static void and() {
+        ArrayList<Variable> variables = new ArrayList();
+        variables.add(new Variable("a", true));
+        variables.add(new Variable("b"));
+        variables.add(new Variable("c"));
+        
+        AndRelation formula = new AndRelation();
+        
+        OrRelation clause1 = new OrRelation();
+        clause1.getNotRelations().add(new NotRelation(variables, "a", false));
+        clause1.getNotRelations().add(new NotRelation(variables, "b", false));
+        
+        OrRelation clause2 = new OrRelation();
+        clause2.getNotRelations().add(new NotRelation(variables, "c", true));
+        
+        formula.getOrRelations().add(clause1);
+        formula.getOrRelations().add(clause2);
+        
+        assertTrue(formula.eval());
+    }
+    
 }

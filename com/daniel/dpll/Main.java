@@ -39,6 +39,7 @@ public class Main {
     private static void test() {
         RelationEvalTest.not();
         RelationEvalTest.or();
+        RelationEvalTest.and();
     }
 
     public static void main(String[] args) {
