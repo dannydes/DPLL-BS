@@ -100,7 +100,7 @@ public class DPLL {
 
             //Supposed to run only once
             for (NotRelation literal : literals) {
-                literal.not();
+                literal.getVariable().setValue(false);
             }
         }
 

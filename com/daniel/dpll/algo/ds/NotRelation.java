@@ -32,10 +32,6 @@ public class NotRelation extends Relation {
         return not;
     }
 
-    public final void not() {
-        not = !not;
-    }
-
     /**
      *
      * @return
