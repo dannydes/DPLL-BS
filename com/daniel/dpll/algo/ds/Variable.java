@@ -5,6 +5,11 @@ public class Variable {
     private final char variable;
     private boolean value;
     private boolean assigned;
+    
+    private boolean pure;
+    
+    //Should be set only in case var is pure
+    private boolean not;
 
     public Variable(String variable) {
         this.variable = variable.charAt(0);
@@ -28,6 +33,22 @@ public class Variable {
 
     public boolean getValue() {
         return value;
+    }
+    
+    public void markPure() {
+        pure = true;
+    }
+    
+    public boolean isPure() {
+        return pure;
+    }
+    
+    public void setNot(boolean not) {
+        this.not = not;
+    }
+    
+    public boolean isNot() {
+        return not;
     }
 
     public boolean isUnassigned() {

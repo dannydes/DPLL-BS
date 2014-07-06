@@ -70,6 +70,11 @@ public class DPLL {
                         clause.getNotRelations().remove(literal);
                     }
                 }
+                
+                //For more intelligent literal/value choice
+                variable.setValue(!not);
+                variable.markPure();
+                variable.setNot(not);
             }
         }
     }
@@ -85,8 +90,16 @@ public class DPLL {
     private OrRelation chooseLiteral() {
         if (iterator.hasNext()) {
             Variable var = (Variable) iterator.next();
-            var.setValue(true);
-            NotRelation l = new NotRelation(variables, var.toString(), false);
+            
+            NotRelation l;
+            if (var.isPure() && var.isNot()) {
+                var.setValue(false);
+                l = new NotRelation(variables, var.toString(), true);
+            } else {
+                var.setValue(true);
+                l = new NotRelation(variables, var.toString(), false);
+            }
+            
             OrRelation clause = new OrRelation();
             clause.getNotRelations().add(l);
             return clause;
@@ -100,7 +113,13 @@ public class DPLL {
 
             //Supposed to run only once
             for (NotRelation literal : literals) {
-                literal.getVariable().setValue(false);
+                Variable var = literal.getVariable();
+                var.setValue(!var.getValue());
+                
+                if (var.isPure() && var.isNot()) {
+                    var.setValue(false);
+                    literal.not();
+                }
             }
         }
 
