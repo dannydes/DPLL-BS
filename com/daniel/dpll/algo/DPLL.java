@@ -9,17 +9,13 @@ import java.util.ListIterator;
 
 public class DPLL {
 
-    private ArrayList<Variable> variables;
-    private Variable current;
-    private ListIterator iterator;
-    private boolean satisfiable;
+    private final ArrayList<Variable> variables;
+    private final ListIterator iterator;
+    private final boolean satisfiable;
 
     public DPLL(Parser parser) {
         variables = parser.getVars();
-        
-        iterator = variables.listIterator();
-        current = null;
-        
+        iterator = variables.listIterator();        
         satisfiable = dpll(parser.getAndRel());
     }
 
@@ -99,11 +95,13 @@ public class DPLL {
     }
 
     private AndRelation notClause(AndRelation formula, OrRelation l) {
-        HashSet<NotRelation> literals = l.getNotRelations();
+        if (l != null) {
+            HashSet<NotRelation> literals = l.getNotRelations();
 
-        //Supposed to run only once
-        for (NotRelation literal : literals) {
-            literal.not();
+            //Supposed to run only once
+            for (NotRelation literal : literals) {
+                literal.not();
+            }
         }
 
         return formula;
@@ -123,7 +121,9 @@ public class DPLL {
         eliminatePureLiterals(formula);
 
         OrRelation l = chooseLiteral();
-        formula.getOrRelations().add(l);
+        if (l != null) {
+            formula.getOrRelations().add(l);
+        }
 
         return dpll(formula) || dpll(notClause(formula, l));
     }
