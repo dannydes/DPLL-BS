@@ -1,5 +1,6 @@
 package com.daniel.dpll.algo.ds;
 
+import com.daniel.dpll.parser.exceptions.OrRelationParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.regex.Matcher;
@@ -46,22 +47,46 @@ public class OrRelation extends Relation {
     /**
      *
      * @param relation
+     * @param variables
      * @return
      * @throws Exception
      */
     public static OrRelation parse(String relation, ArrayList<Variable> variables) throws Exception {
         OrRelation orRel = new OrRelation();
+        
+        Pattern openBracketPattern = Pattern.compile("\\(");
+        Matcher matcher = openBracketPattern.matcher(relation);
+        matcher.find();
+        int pos = matcher.end();
 
         Pattern firstOrPattern = Pattern.compile("!?\\s*\\w");
-        Matcher matcher = firstOrPattern.matcher(relation);
+        matcher = firstOrPattern.matcher(relation);
         if (matcher.find()) {
+            if (pos != matcher.start()) {
+                throw new OrRelationParseException();
+            }
             orRel.notRelations.add(NotRelation.parse(matcher.group(), variables));
+            
+            pos = matcher.end();
         }
 
-        Pattern restOrPattern = Pattern.compile(",\\s*!?\\s*\\w");
+        Pattern restOrPattern = Pattern.compile("\\s*,\\s*!?\\s*\\w\\s*");
         matcher = restOrPattern.matcher(relation);
         while (matcher.find()) {
+            if (pos != matcher.start()) {
+                throw new OrRelationParseException();
+            }
             orRel.notRelations.add(NotRelation.parse(matcher.group(), variables));
+            
+            pos = matcher.end();
+        }
+        
+        Pattern closeBracketPattern = Pattern.compile("\\)");
+        matcher = closeBracketPattern.matcher(relation);
+        matcher.find();
+        
+        if (pos < matcher.start()) {
+            throw new OrRelationParseException();
         }
 
         return orRel;
