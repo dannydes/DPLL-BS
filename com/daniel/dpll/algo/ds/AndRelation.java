@@ -6,13 +6,20 @@ import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Class representing a formula
+ * @author Daniel
+ */
 public class AndRelation extends Relation {
 
+    /**
+     * Set of clauses
+     */
     private final HashSet<OrRelation> orRelations = new HashSet();
 
     /**
-     *
-     * @return
+     * Evaluates formula based on clause values
+     * @return formula value
      */
     @Override
     public boolean eval() {
@@ -28,6 +35,13 @@ public class AndRelation extends Relation {
         return true;
     }
 
+    /**
+    * Parses a formula string
+    * @param formula formula string
+    * @param variables list of variables
+    * @return AndRelation instance representing parsed string
+    * @throws Exception
+    */
     public static AndRelation parse(String formula, ArrayList<Variable> variables) throws Exception {
         Pattern andPattern = Pattern.compile("\\s*\\(\\s*[^\\)]+\\s*\\)\\s*");
         Matcher matcher = andPattern.matcher(formula);

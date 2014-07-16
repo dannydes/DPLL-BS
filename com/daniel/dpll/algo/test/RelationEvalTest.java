@@ -8,11 +8,14 @@ import java.util.ArrayList;
 import org.junit.Assert;
 
 /**
- *
+ * Class for relation evaluation tests
  * @author Daniel
  */
 public class RelationEvalTest extends Assert {
     
+    /**
+     * Test for not relation evaluation
+     */
     public static void not() {
         ArrayList<Variable> variables = new ArrayList();
         variables.add(new Variable("a"));
@@ -20,6 +23,9 @@ public class RelationEvalTest extends Assert {
         assertTrue(l.eval());
     }
     
+    /**
+     * Few tests for or relation evaluation
+     */
     public static void or() {
         ArrayList<Variable> variables = new ArrayList();
         variables.add(new Variable("a", true));
@@ -39,6 +45,9 @@ public class RelationEvalTest extends Assert {
         assertFalse(clause.eval());
     }
     
+    /**
+     * Few tests for and relation evaluation
+     */
     public static void and() {
         ArrayList<Variable> variables = new ArrayList();
         variables.add(new Variable("a", true));

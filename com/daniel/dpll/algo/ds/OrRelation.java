@@ -6,15 +6,34 @@ import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Class representing a clause
+ * @author Daniel
+ */
 public class OrRelation extends Relation {
 
+    /**
+     * Set of literals
+     */
     private final HashSet<NotRelation> notRelations = new HashSet();
+    
+    /**
+     * Last detected unassigned variable
+     */
     private Variable lastUnassigned;
 
+    /**
+     * Getter for notRelations
+     * @return set of literals
+     */
     public final HashSet<NotRelation> getNotRelations() {
         return notRelations;
     }
 
+    /**
+     * Checks whether the clause contains only one unassigned literal
+     * @return whether clause is unit
+     */
     public final boolean isUnit() {
         int unassigned = 0;
         for (NotRelation literal : notRelations) {
@@ -26,13 +45,17 @@ public class OrRelation extends Relation {
         return unassigned == 1;
     }
 
+    /**
+     * Getter for lastUnassigned
+     * @return 
+     */
     public final Variable getLastUnassigned() {
         return lastUnassigned;
     }
 
     /**
-     *
-     * @return
+     * Evaluates clause based on the values assigned to its literals
+     * @return clause value
      */
     @Override
     public boolean eval() {
@@ -45,10 +68,10 @@ public class OrRelation extends Relation {
     }
 
     /**
-     *
-     * @param relation
-     * @param variables
-     * @return
+     * Parses a clause substring within the formula string
+     * @param relation clause substring
+     * @param variables list of variables
+     * @return OrRelation instance representing parsed substring
      * @throws Exception
      */
     public static OrRelation parse(String relation, ArrayList<Variable> variables) throws Exception {

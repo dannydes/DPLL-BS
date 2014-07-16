@@ -7,22 +7,51 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.ListIterator;
 
+/**
+ * Class containing most DPLL routines
+ * @author Daniel
+ */
 public class DPLL {
 
+    /**
+     * List of variables
+     */
     private final ArrayList<Variable> variables;
+    
+    /**
+     * Iterator for variables
+     */
     private final ListIterator iterator;
+    
+    /**
+     * Satisfiability of formula
+     */
     private final boolean satisfiable;
 
+    /**
+     * Constructor, initializing DPLL algorithm
+     * @param parser Parser instance
+     */
     public DPLL(Parser parser) {
         variables = parser.getVars();
         iterator = variables.listIterator();        
         satisfiable = dpll(parser.getAndRel());
     }
 
+    /**
+     * Checks that all clauses are true
+     * @param formula set of clauses
+     * @return whether clauses are consistent
+     */
     private boolean consistent(AndRelation formula) {
         return formula.eval();
     }
 
+    /**
+     * Checks whether all literals are assigned and if any clause is false
+     * @param formula set of clauses
+     * @return presence of empty clauses
+     */
     private boolean emptyClause(AndRelation formula) {
         for (Variable literal : variables) {
             if (literal.isUnassigned()) {
@@ -32,6 +61,10 @@ public class DPLL {
         return !formula.eval();
     }
 
+    /**
+     * Eliminates literals which always occur with the same polarity within the formula
+     * @param formula set of clauses
+     */
     private void eliminatePureLiterals(AndRelation formula) {
         for (Variable variable : variables) {
             HashSet<NotRelation> pureLiterals = new HashSet();
@@ -79,6 +112,10 @@ public class DPLL {
         }
     }
 
+    /**
+     * Assigns unassigned literals in unit clauses to true
+     * @param formula set of clauses
+     */
     private void propagateUnits(AndRelation formula) {
         for (OrRelation clause : formula.getOrRelations()) {
             if (clause.isUnit()) {
@@ -87,6 +124,10 @@ public class DPLL {
         }
     }
 
+    /**
+     * Chooses the next variable and assigns it to true
+     * @return wrapper for next variable's literal
+     */
     private OrRelation chooseLiteral() {
         if (iterator.hasNext()) {
             Variable var = (Variable) iterator.next();
@@ -107,6 +148,12 @@ public class DPLL {
         return null;
     }
 
+    /**
+     * Assigns the opposite polarity to the chosen variable
+     * @param formula set of clauses
+     * @param l wrapper for chosen literal
+     * @return wrapper for the chosen variable literal given the opposite polarity
+     */
     private AndRelation notClause(AndRelation formula, OrRelation l) {
         if (l != null) {
             HashSet<NotRelation> literals = l.getNotRelations();
@@ -126,6 +173,11 @@ public class DPLL {
         return formula;
     }
 
+    /**
+     * Main entrance to the DPLL algorithm
+     * @param formula set of clauses
+     * @return satisfiability of formula
+     */
     private boolean dpll(AndRelation formula) {
         if (consistent(formula)) {
             return true;
@@ -147,10 +199,18 @@ public class DPLL {
         return dpll(formula) || dpll(notClause(formula, l));
     }
 
+    /**
+     * Getter for satisfiable
+     * @return satisfiable
+     */
     public boolean isSatisfiable() {
         return satisfiable;
     }
     
+    /**
+     * Getter for variables
+     * @return list of variables
+     */
     public ArrayList<Variable> getVariables() {
         return variables;
     }

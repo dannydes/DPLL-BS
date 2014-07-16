@@ -6,8 +6,16 @@ import com.daniel.dpll.algo.test.RelationEvalTest;
 import com.daniel.dpll.parser.Parser;
 import java.util.Scanner;
 
+/**
+ * Main class
+ * @author Daniel
+ */
 public class Main {
 
+    /**
+     * Invocation for parser and DPLL algorithm
+     * @param formula string representing formula in CNF
+     */
     private static void run(String formula) {
         try {
             Parser parser = Parser.createInstance(formula);
@@ -30,18 +38,30 @@ public class Main {
         }
     }
     
+    /**
+     * Sentinel test
+     * @param formula string representing formula
+     * @return whether sentinel test passes or fails
+     */
     private static boolean keepRunning(String formula) {
         final String SENTINEL = "exit";
         
         return !SENTINEL.equals(formula);
     }
     
+    /**
+     * Invocation for relation evaluation JUnit tests
+     */
     private static void test() {
         RelationEvalTest.not();
         RelationEvalTest.or();
         RelationEvalTest.and();
     }
 
+    /**
+     * Application launch
+     * @param args command-line arguments
+     */
     public static void main(String[] args) {
         System.out.println("DPLL BS (Bis-Sens)");
         System.out.println("------------------\n");
