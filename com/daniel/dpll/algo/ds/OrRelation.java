@@ -47,7 +47,7 @@ public class OrRelation extends Relation {
 
     /**
      * Getter for lastUnassigned
-     * @return 
+     * @return last detected unassigned variable
      */
     public final Variable getLastUnassigned() {
         return lastUnassigned;
